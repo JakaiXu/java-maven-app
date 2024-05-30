@@ -40,9 +40,10 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    def dockerCmd = "docker run -p 8080:8080 -d jakai/demo-app:java-maven-app"
+                    def dockerComposeCMD = "docker-compose -f docker-compose.yaml up --detach"
                     sshagent(['azure-server-key']) {
-                        sh "ssh -o StrictHostKeyChecking=no azureuser@20.211.145.205 ${dockerCmd}"
+                        sh "scp docker-compose.yaml azureuser@20.211.145.205:/home/azureuser"
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@20.211.145.205 ${dockerComposeCMD}"
 }
                 }
             }
