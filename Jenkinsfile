@@ -40,10 +40,11 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    def dockerComposeCMD = "docker-compose -f docker-compose.yaml up --detach"
+                    def shellCmd = "bash ./server-cmds.sh"
                     sshagent(['azure-server-key']) {
+                        sh "scp server-cmds.sh azureuser@20.211.145.205:/home/azureuser"
                         sh "scp docker-compose.yaml azureuser@20.211.145.205:/home/azureuser"
-                        sh "ssh -o StrictHostKeyChecking=no azureuser@20.211.145.205 ${dockerComposeCMD}"
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@20.211.145.205 ${shellCmd}"
 }
                 }
             }
