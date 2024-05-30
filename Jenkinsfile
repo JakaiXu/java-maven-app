@@ -22,7 +22,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    def dockerCmd = "docker run -p 3080:3080 -d jakai/demo-app:java-maven-app"
+                    def dockerCmd = "docker run -p 3088:3088 -d jakai/demo-app:java-maven-app"
                     sshagent(['azure-server-key']) {
                         sh "ssh -o StrictHostKeyChecking=no azureuser@20.211.145.205 ${dockerCmd}"
 }
